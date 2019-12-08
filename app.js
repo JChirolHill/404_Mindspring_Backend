@@ -5,7 +5,7 @@ const app = express();
 const cors = require('cors');
 
 const { ENVIRONMENT, PORT, QUOTE_API_KEY } = process.env;
-// const IS_DEVELOPMENT = ENVIRONMENT === 'development';
+const IS_DEVELOPMENT = ENVIRONMENT === 'development';
 
 // HELPER FUNCTIONS
 const IMAGE_API_URL = 'https://picsum.photos/v2/list';
