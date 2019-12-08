@@ -32,7 +32,7 @@ async function fetchQuotes() {
 app.use(express.json());
 
 app.use(cors({
-  origin: IS_DEVELOPMENT ? 'http://localhost:3000' : 'https://mindspring.surge.sh'
+  origin: IS_DEVELOPMENT ? 'http://localhost:3000' : ['http://mindspring.surge.sh', 'https://mindspring.surge.sh']
 }));
 
 // TEMPORARY GAME STORAGE
