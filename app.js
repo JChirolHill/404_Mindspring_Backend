@@ -1,12 +1,13 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
 
-// const { ENVIRONMENT, PORT } = process.env;
+const { ENVIRONMENT, PORT, QUOTE_API_KEY } = process.env;
 // const IS_DEVELOPMENT = ENVIRONMENT === 'development';
 
 // HELPER FUNCTIONS
-const QUOTE_API_KEY = '';
 const IMAGE_API_URL = 'https://picsum.photos/v2/list';
 const QUOTE_API_URL = 'https://favqs.com/api/quotes';
 const categories = ['picture', 'quote'];
@@ -22,7 +23,7 @@ async function fetchImages() {
 async function fetchQuotes() {
   let response = await fetch(QUOTE_API_URL, {
     headers:  {
-      `Authorization': 'Token token="${QUOTE_API_KEY}"`
+      'Authorization': `Token token="${QUOTE_API_KEY}"`
     }
   });
   return response.json();
