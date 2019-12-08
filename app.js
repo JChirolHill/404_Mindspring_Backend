@@ -249,7 +249,6 @@ app.get('/similarities/:code', (request, response) => {
 
 // push up similarities from a particular user
 app.put('/similarities', (request, response) => {
-  console.log(request.body.similarities);
   // check all params
   if(!request.body.code || !request.body.similarities || !request.body.username) {
     response.status(404).send({ message: `Missing parameters.` });
@@ -259,25 +258,19 @@ app.put('/similarities', (request, response) => {
   // add similarities
   const game = tempStorage[request.body.code];
   if(game && game.numComplete < game.numPlayers) {
-    console.log('game prompts');
-    console.log(game.prompts);
-    console.log('request body');
-    console.log(request.body);
     const player = game.users.includes(request.body.username);
     if(player) {
+      request.body.similarities = request.body.similarities.reverse();
       for(let i=0; i<request.body.similarities.length; ++i) {
-        console.log('request at ' + i);
-        console.log(request.body.similarities[i]);
         if(request.body.similarities[i][0].type === game.prompts[i][0].type
           && request.body.similarities[i][1].type === game.prompts[i][1].type) {
           game.prompts[i][2].push({
             username: request.body.username,
             similarity: request.body.similarities[i][2][0].similarity
           });
-          // game.prompts[i][2][request.body.username] = request.body.similarities[i][2][request.body.username];
-          game.numComplete = game.numComplete + 1;
         }
       }
+      game.numComplete = game.numComplete + 1;
       response.status(204).send();
     }
     else {
@@ -285,7 +278,7 @@ app.put('/similarities', (request, response) => {
     }
   }
   else {
-    response.status(404).send({ message: 'Invalid group code or all players have already submitted.' });
+    response.status(404).send({ message: `Invalid group code ${request.body.code} or all players have already submitted.` });
   }
 });
 
